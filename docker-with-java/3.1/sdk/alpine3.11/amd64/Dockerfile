@@ -16,11 +16,11 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip \
     # PowerShell telemetry for docker image usage
-    POWERSHELL_DISTRIBUTION_CHANNEL=PSDocker-DotnetCoreSDK-Alpine-3.10
+    POWERSHELL_DISTRIBUTION_CHANNEL=PSDocker-DotnetCoreSDK-Alpine-3.10 \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre \
     PATH=$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin:/root/.dotnet/tools \
-	JAVA_VERSION 8u242 \
-	JAVA_ALPINE_VERSION 8.242.08-r0
+	JAVA_VERSION=8u242 \
+	JAVA_ALPINE_VERSION=8.242.08-r0
 
 # Disable the invariant mode (set in base image) and install openjdk
 RUN apk add --no-cache icu-libs openjdk8-jre="$JAVA_ALPINE_VERSION"
@@ -48,6 +48,3 @@ RUN set -x \
 	} > /usr/local/bin/docker-java-home \
 	&& chmod +x /usr/local/bin/docker-java-home \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
-
-# Trigger first run experience by running arbitrary cmd to populate local package cache
-RUN dotnet help
